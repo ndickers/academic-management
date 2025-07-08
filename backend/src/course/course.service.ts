@@ -17,6 +17,14 @@ export class CourseService {
           id: 'asc',
         },
       ],
+      include: {
+        lecturer: {
+          select: {
+            email: true,
+            id: true
+          }
+        }
+      }
     });
   }
 
@@ -85,7 +93,16 @@ export class CourseService {
     });
   }
 
-  async update(id: number, updateCourse: Prisma.CourseUpdateInput) {
+  async update(id: number, updateCourse: Prisma.CourseUncheckedUpdateInput) {
+    return await prisma.course.update({
+      where: {
+        id: id,
+      },
+      data: updateCourse,
+    });
+  }
+
+  async assignLec(id: number, updateCourse: { lecturerId: number }) {
     return await prisma.course.update({
       where: {
         id: id,

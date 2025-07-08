@@ -64,6 +64,15 @@ export class CourseController {
   async findOne(@Param('id') id: string) {
     return await this.courseService.findOne(+id);
   }
+  @Patch('/lecturer/assign/:id')
+  async updateLec(@Param('id') id: string, @Body() updateCourse: { lecturerId: number }) {
+    const assigned = await this.courseService.assignLec(+id, updateCourse);
+    if (assigned) {
+      return { message: "Course Assigned", lecId: assigned.lecturerId }
+    }
+    return assigned;
+  }
+
 
   @Patch(':id')
   @UseInterceptors(FileInterceptor('syllabus', {
@@ -78,7 +87,7 @@ export class CourseController {
     })
   }))
 
-  @UseGuards(RoleGuard(["LECTURER"]))
+  @UseGuards(RoleGuard(["LECTURER", "ADMIN"]))
   async update(@Param('id') id: string, @UploadedFile() file: Express.Multer.File, @Body() updateCourse: Prisma.CourseUncheckedCreateInput) {
     const syllabus = file && file.filename;
     const title = updateCourse.title && updateCourse.title;

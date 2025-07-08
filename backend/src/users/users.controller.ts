@@ -30,6 +30,12 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
+  @Get("lecturer/:id")
+  @UseGuards(RoleGuard(["ADMIN", "LECTURER"]))
+  async findAllLec(@Param('id') exeptId: string) {
+    return await this.usersService.findAllLec(+exeptId);
+  }
+
   @Get(':id')
   @UseGuards(RoleGuard(["ADMIN", "LECTURER", "STUDENT"]))
   async findOne(@Param('id') id: string) {

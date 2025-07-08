@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,11 +11,13 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
 import { UsersController } from './users/users.controller';
 import { CourseController } from './course/course.controller';
 import { EnrollmentModule } from './enrollment/enrollment.module';
+import { NotificationGateway } from './notification/notification.gateway';
+import { AssignmentModule } from './assignment/assignment.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, CourseModule, EnrollmentModule],
+  imports: [UsersModule, AuthModule, CourseModule, EnrollmentModule, AssignmentModule],
   controllers: [AppController],
-  providers: [AppService, UsersService, MailServiceService],
+  providers: [AppService, UsersService, MailServiceService, NotificationGateway],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

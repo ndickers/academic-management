@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient } from 'generated/prisma';
 
@@ -12,6 +13,23 @@ export class UsersService {
 
   async findAll() {
     return await prisma.user.findMany();
+  }
+
+  async findAllLec(exceptLecId: number) {
+    return await prisma.user.findMany({
+      where: {
+        role: "LECTURER",
+        isVerified: true,
+        id: {
+          not: exceptLecId
+        }
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+      }
+    });
   }
 
   async findOne(userId: number) {

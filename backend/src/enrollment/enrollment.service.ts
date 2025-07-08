@@ -34,8 +34,22 @@ export class EnrollmentService {
     return `This action returns a #${id} enrollment`;
   }
 
-  update(id: number, updateEnrollmentDto: any) {
-    return `This action updates a #${id} enrollment`;
+  async update(id: number, updateEnrollement: Prisma.EnrollmentUpdateInput) {
+    return await prisma.enrollment.update({
+      where: {
+        id: id,
+      },
+      include: {
+        course: {
+          select: {
+            id: true,
+            title: true
+          }
+        }
+      }
+      ,
+      data: updateEnrollement,
+    })
   }
 
   async dropEnrollment(studentId: number, courseId: number) {

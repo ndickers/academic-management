@@ -1,12 +1,14 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EnrollmentService } from './enrollment.service';
 import { Prisma } from 'generated/prisma';
+import { NotificationGateway } from '../notification/notification.gateway';
 
 
 @Controller('enroll')
 export class EnrollmentController {
-  constructor(private readonly enrollmentService: EnrollmentService) { }
+  constructor(private readonly enrollmentService: EnrollmentService, private readonly notificationGateway: NotificationGateway) { }
 
   @Post()
   async create(@Body() createEnroll: Prisma.EnrollmentCreateInput) {
@@ -30,8 +32,17 @@ export class EnrollmentController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEnrollmentDto: any) {
-    return this.enrollmentService.update(+id, updateEnrollmentDto);
+  async update(@Param('id') id: string, @Body() updateEnrollment: Prisma.EnrollmentUpdateInput) {
+    try {
+      const updated = await this.enrollmentService.update(+id, updateEnrollment);
+      if (updated) {
+        const message = updated.status === "APPROVED" ? `Congratulations! You have been approved to enroll in ${updated.course.title}` : `We're sorry. Your enrollment request for ${updated.course.title} was not approved`
+        this.notificationGateway.sendEnrollMentNotification(updated.studentId, message)
+        return { status: updated.status, id: updated.id }
+      }
+    } catch (error) {
+      throw error
+    }
   }
 
   @Delete(':studentId/:courseId')
@@ -47,6 +58,5 @@ export class EnrollmentController {
         throw error
       }
     }
-
   }
 }
