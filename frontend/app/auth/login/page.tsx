@@ -67,7 +67,6 @@ export default function Component() {
             id="email"
             {...register("email")}
             placeholder="Email"
-            required
             color={errors.email ? "failure" : "success"}
           />
           <HelperText color="failure">
@@ -88,7 +87,6 @@ export default function Component() {
             {...register("password")}
             type="password"
             placeholder="Password"
-            required
             color={errors.password ? "failure" : "success"}
           />
           <HelperText color="failure">

@@ -48,7 +48,7 @@ export default function CourseCard({
           enroll
         </button>
         <Link
-          className="my-auto text-xs underline text-blue-600"
+          className="my-auto text-xs text-nowrap underline text-blue-600"
           href={`${process.env.NEXT_PUBLIC_IMAGE}/${syllabus}`}
         >
           View syllabus

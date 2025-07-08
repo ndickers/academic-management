@@ -7,7 +7,8 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { useDemoRouter } from "@toolpad/core/internal";
 
 import Assignment from "@/app/dashboard/lecturer/Assignment";
-import Courses from "../../app/dashboard/lecturer/Courses";
+import AdminCourses from "../../app/dashboard/admin/Courses";
+import LecturerCourses from "../../app/dashboard/admin/Courses";
 import Syllabus from "@/app/dashboard/lecturer/Syllabus";
 import { useAppSelector } from "@/lib/hooks";
 import ViewCourses from "@/app/dashboard/student/ViewCourses";
@@ -108,14 +109,14 @@ export default function Sidebar() {
   const AdminPages = role === "ADMIN" && (
     <>
       {router.pathname === "/users" && <Users />}
-      {router.pathname === "/courses" && <Courses />}
+      {router.pathname === "/courses" && <AdminCourses />}
       {router.pathname === "/enrollment" && <Enrollment />}
     </>
   );
 
   const LecturerPages = role === "LECTURER" && (
     <>
-      {router.pathname === "/courses" && <Courses />}
+      {router.pathname === "/courses" && <LecturerCourses />}
       {router.pathname === "/assignment" && <Assignment />}
       {router.pathname === "/syllabus" && <Syllabus />}
     </>

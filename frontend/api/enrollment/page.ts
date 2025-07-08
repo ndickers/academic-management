@@ -6,7 +6,7 @@ const enrollmentApi = axios.create({
 });
 
 export interface EnrollType {
-    data: { studentId: number, courseId: number, status: "PENDING" | "APPROVE" | "REJECTED" }
+    data: { studentId: number, courseId: number, status: "PENDING" | "APPROVED" | "REJECTED" }
     accessToken: string
 }
 
@@ -16,10 +16,35 @@ export interface DropCourseType {
     courseId: number
 }
 
+export interface UpdateEnrollType {
+    accessToken: string;
+    id: number;
+    data: {
+        status: "PENDING" | "APPROVED" | "REJECTED";
+    }
+}
+
 
 export const enrollCourse = async ({ data, accessToken }: EnrollType) => {
     try {
         const response = await enrollmentApi.post(`/enroll`, data, {
+            headers: {
+                "authorization": `Bearer ${accessToken}`
+            }
+        })
+        return response
+    } catch (error: any) {
+        if (error.response) {
+            return error.response;
+        }
+        return { message: 'Unknown error occurred' };
+    }
+}
+
+
+export const confirmEnrollment = async ({ id, data, accessToken }: UpdateEnrollType) => {
+    try {
+        const response = await enrollmentApi.patch(`/enroll/${id}`, data, {
             headers: {
                 "authorization": `Bearer ${accessToken}`
             }

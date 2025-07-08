@@ -66,6 +66,22 @@ export const getLecCourses = async ([_, id, accessToken]: [string, string, strin
     }
 }
 
+export const getAllCourses = async ([_, accessToken]: [string, string, string]) => {
+    try {
+        const response = await courseApi.get(`/course`, {
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        })
+        return response.data;
+    } catch (error) {
+        if (error) {
+            throw error
+        }
+    }
+}
+
+
 export const getViewStudentCourse = async ([_, id, accessToken]: [string, string, string]) => {
     try {
         const response = await courseApi.get(`/course/student/${id}`, {

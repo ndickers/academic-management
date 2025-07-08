@@ -94,15 +94,23 @@ export default function Courses() {
         <div>
           <h2 className="text-center font-bold">Confirm Enrollment</h2>
           <div className="flex items-center justify-between px-6 mt-5">
-            <button
-              onClick={() => {
-                setOpen(false);
-                setCourseId(null);
-              }}
-              className="bg-red-500 text-center w-[6rem] p-1 font-semibold rounded-sm"
-            >
-              Cancel
-            </button>
+            <div className="flex w-[50%] justify-between px-4">
+              <button
+                className=" bg-blue-400 px-4 rounded-sm block"
+                onClick={() => {}}
+              >
+                Submit assignment
+              </button>
+              <button
+                className=" bg-red-400 px-4 rounded-sm block"
+                onClick={() => {
+                  router.push("/auth/login");
+                  dispatch(logout());
+                }}
+              >
+                logout
+              </button>
+            </div>
             <form action="" onSubmit={handleSubmit}>
               <button className="text-center bg-green-500 p-1 w-[6rem] font-semibold rounded-sm justify-center flex flex-nowrap gap-2">
                 Enroll

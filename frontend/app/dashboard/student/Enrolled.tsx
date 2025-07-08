@@ -30,8 +30,6 @@ export default function Courses() {
     getEnrolledStudentCourse
   );
 
-  console.log({ enrolled: courseId });
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);

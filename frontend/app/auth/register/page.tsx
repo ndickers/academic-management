@@ -60,7 +60,6 @@ export default function Component() {
             id="email"
             {...register("email")}
             placeholder="Email"
-            required
             color={errors.email ? "failure" : "success"}
           />
           <HelperText color="failure">
@@ -75,7 +74,7 @@ export default function Component() {
           <div className=" block">
             <Label htmlFor="role">Select Role</Label>
           </div>
-          <Select id="role" {...register("role")} required>
+          <Select id="role" {...register("role")}>
             <option>Student</option>
             <option>Lecturer</option>
           </Select>
@@ -89,7 +88,6 @@ export default function Component() {
             {...register("password")}
             type="password"
             placeholder="Password"
-            required
             color={errors.password ? "failure" : "success"}
           />
           <HelperText color="failure">
@@ -109,7 +107,6 @@ export default function Component() {
             type="password"
             placeholder="Confirm Password"
             id="confirmPassword"
-            required
             color={errors.confirmPassword ? "failure" : "success"}
           />
           <HelperText color="failure">
