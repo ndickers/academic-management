@@ -90,6 +90,9 @@ export class CourseService {
       where: {
         lecturerId: id,
       },
+      include: {
+        assignments: true
+      }
     });
   }
 

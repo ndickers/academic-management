@@ -19,7 +19,7 @@ import { mutate } from "swr";
 
 interface Inputs {
   title: string;
-  credits: number | Blob;
+  credits: number;
   syllabus: any;
 }
 export const courseShema = yup.object({
@@ -31,7 +31,12 @@ export const courseShema = yup.object({
       originalValue === "" ? undefined : value
     )
     .required("Credits is required"),
-  syllabus: yup.mixed().required("Syllabus is required"),
+  Syllabus: yup
+    .mixed()
+    .required("Syllabus is required")
+    .test("file-exists", "Syllabus must be provided", (value) => {
+      return value && value[0] instanceof File;
+    }),
 });
 
 export default function CourseForm({
@@ -45,14 +50,14 @@ export default function CourseForm({
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: yupResolver(courseShema),
+    resolver: yupResolver(courseShema as any),
   });
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsLoading(true);
     const formData = new FormData();
     formData.append("title", data.title);
-    formData.append("credits", data.credits as Blob);
+    formData.append("credits", `${data.credits}`);
     formData.append("syllabus", data.syllabus[0]);
     formData.append("lecturerId", user.id);
 

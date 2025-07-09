@@ -7,6 +7,7 @@ import { Spinner } from "flowbite-react";
 import { logout } from "@/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import BasicModal from "../../../components/Modal";
+import AssignmentForm from "../../../components/Forms/AssignmentForm";
 import { dropCourse, enrollCourse, EnrollType } from "@/api/enrollment/page";
 import { toast } from "react-toastify";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
@@ -23,6 +24,7 @@ export default function Courses() {
   const { user, token } = useAppSelector((state) => state.auth);
   const [courseId, setCourseId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
+  const [openAssign, setOpenAssign] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { data, error, isLoading } = useSWR(
@@ -83,6 +85,7 @@ export default function Courses() {
                 credits={credits}
                 setCourseId={setCourseId}
                 setOpen={setOpen}
+                setOpenAssign={setOpenAssign}
               />
             )
           )
@@ -124,6 +127,9 @@ export default function Courses() {
             </form>
           </div>
         </div>
+      </BasicModal>
+      <BasicModal open={openAssign} setOpen={setOpenAssign}>
+        <AssignmentForm courseId={courseId} setOpen={setOpenAssign} />
       </BasicModal>
     </div>
   );

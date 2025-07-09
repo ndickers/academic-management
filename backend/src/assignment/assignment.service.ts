@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAssignmentDto } from './dto/create-assignment.dto';
-import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { PrismaClient, Prisma } from 'generated/prisma';
 
+const prisma = new PrismaClient();
 @Injectable()
 export class AssignmentService {
-  create(createAssignmentDto: CreateAssignmentDto) {
-    return 'This action adds a new assignment';
+  async create(createAssignment: Prisma.AssignmentUncheckedCreateInput) {
+    return await prisma.assignment.create({ data: createAssignment });
   }
 
   findAll() {
@@ -16,7 +16,9 @@ export class AssignmentService {
     return `This action returns a #${id} assignment`;
   }
 
-  update(id: number, updateAssignmentDto: UpdateAssignmentDto) {
+  update(id: number, updateAssignment: Prisma.AssignmentUpdateInput) {
+    console.log(updateAssignment);
+
     return `This action updates a #${id} assignment`;
   }
 

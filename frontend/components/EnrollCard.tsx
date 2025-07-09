@@ -11,6 +11,7 @@ export default function CourseCard({
   id,
   setCourseId,
   setOpen,
+  setOpenAssign,
 }: {
   title: string;
   credits: number;
@@ -18,6 +19,7 @@ export default function CourseCard({
   status: string;
   id: number;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenAssign: React.Dispatch<React.SetStateAction<boolean>>;
   setCourseId: React.Dispatch<React.SetStateAction<number | null>>;
 }) {
   return (
@@ -47,22 +49,33 @@ export default function CourseCard({
           </p>
         </CardContent>
       </Box>
-      <div className=" pr-2.5">
+      <div className="flex flex-col justify-center items-end">
         <button
           onClick={() => {
             setOpen(true);
             setCourseId(id);
           }}
-          className="block ml-auto bg-red-500 text-xs mt-4 text-nowrap px-2 rounded-sm"
+          className=" bg-red-400 inline-block text-xs mt-5 text-nowrap px-2 rounded-sm"
         >
           drop course
         </button>
         <Link
-          className="my-auto text-xs underline text-blue-600"
+          className="my-auto text-xs underline text-nowrap text-blue-600"
           href={`${process.env.NEXT_PUBLIC_IMAGE}/${syllabus}`}
         >
           View syllabus
         </Link>
+        {status === "APPROVED" && (
+          <button
+            onClick={() => {
+              setCourseId(id);
+              setOpenAssign(true);
+            }}
+            className="text-xs text-nowrap mb-5 bg-blue-600 px-2 rounded-xs"
+          >
+            submit assignment
+          </button>
+        )}
       </div>
     </Card>
   );

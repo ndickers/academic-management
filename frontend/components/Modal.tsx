@@ -29,7 +29,6 @@ export default function BasicModal({
   setUpdateDetails,
   children,
 }: ModalPropType) {
-  const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     if (setUpdateDetails) {

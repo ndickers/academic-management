@@ -29,12 +29,16 @@ export class CourseController {
   async create(@UploadedFile() file: Express.Multer.File, @Body() createCourse: Prisma.CourseUncheckedCreateInput) {
     const { filename } = file;
     const newCourse = { ...createCourse, lecturerId: Number(createCourse.lecturerId), credits: Number(createCourse.credits), syllabus: filename } as Prisma.CourseUncheckedCreateInput
-
-    const created = await this.courseService.create(newCourse);
-    if (created) {
-      return { message: "Course created", id: created.id }
+    try {
+      const created = await this.courseService.create(newCourse);
+      if (created) {
+        return { message: "Course created", id: created.id }
+      }
+    } catch (error) {
+      if (error) {
+        throw error
+      }
     }
-    return created;
   }
 
   @Get()

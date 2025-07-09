@@ -50,7 +50,7 @@ model Enrollment {
 model Assignment {
   id        Int    @id @default(autoincrement())
   file      String
-  grade     Int?
+  grade     Grade?
   studentId Int
   courseId  Int
   createdAt DateTime @default(now())
@@ -69,4 +69,13 @@ enum Status {
   PENDING
   APPROVED
   REJECTED
+}
+
+enum Grade {
+  A  
+  B
+  C
+  D
+  E
+  F                
 }
